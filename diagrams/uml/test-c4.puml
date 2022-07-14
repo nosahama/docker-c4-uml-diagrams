@@ -1,0 +1,62 @@
+@startuml LAYOUT_LEFT_RIGHT "CommsTech Unified Frontend Apps Overview"
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/react.puml
+!include DEVICONS/javascript.puml
+!include DEVICONS/python.puml
+!include FONTAWESOME/users.puml
+
+LAYOUT_LEFT_RIGHT()
+
+Person(stake_holders, "Stakeholders", "Bruno TL Sexy", "users")
+
+System_Boundary(hf_vpn, 'Hellofresh VPN') {
+    Boundary(cufa, "CommsTech Unified Frontend Apps"){
+        Container(cufa_gateway, "CUFA API Gateway", "NextJS API Routes", $sprite="javascript")
+
+        Boundary(cufa_auth_provider, "Auth Provider"){
+            Boundary(tcs_route_auth, "Route auth guard"){
+                Container(tcs_module, "TCS Module", "Transactional Communications Service UI", $sprite="react")
+            }
+            Boundary(sps_route_auth, "Route auth guard"){
+                Container(sps_module, "SPS Module", "Subscriber Preferences Service UI", $sprite="react")
+            }
+            Boundary(app_n_route_auth, "Route auth guard"){
+                Container(app_n_module, "App XYZ Module", "XYZ Functionality UI", $sprite="react")
+            }
+        }
+
+        Boundary(cufa_shared_components, "CUFA Shared/No-Auth Components"){
+            Container(common_components, "Common Components", "UI components", $sprite="react")
+            Container(libs, "libs", "core functionalities", $sprite="javascript")
+            Container(cufa_http, "HTTP Client", "fetch, auth", $sprite="javascript")
+        }
+    }
+
+    Boundary(commstech_backend_services, "Backend Services"){
+        Container(tcs_backend, "TCS API", "Transactional Communications Service", $sprite="python")
+        Container(sps_backend, "SWS API", "Subscriber Preferences Service", $sprite="python")
+    }
+    Container(ambassador, "Ambassador", "API Gateway")
+}
+
+Boundary(azure, "Azure OIDC"){
+    Container(auth, "Auth", "Azure")
+    Container(permissions, "Roles", "Azure")
+}
+
+Rel(stake_holders, cufa, "Login")
+Rel(cufa, cufa_http, "Login")
+
+BiRel(cufa_http, cufa_gateway, "Get Allowed Roles/Return App Data", "HTTP")
+Rel(cufa_gateway, commstech_backend_services, "Set/Fetch App Data", "HTTP")
+
+BiRel(cufa_gateway, ambassador, "Request Auth and Permissions")
+BiRel(ambassador, azure, "Authenticates User")
+Rel(auth, permissions, "Gets Scope")
+' Rel(ambassador, cufa_http, "Return Permissions and Scope")
+Rel(cufa_http, cufa_auth_provider, "Return Allowed Modules" )
+
+@enduml
