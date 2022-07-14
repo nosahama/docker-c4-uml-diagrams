@@ -3,8 +3,8 @@
 ### (https://www.gnu.org/software/make/manual/html_node/Using-Variables.html#Using-Variables)
 ### --------------------------------------------------------------------------------------------------------------------
 
-D := docker
 CONTAINER_NAME = diagrams
+CONTAINER_ID_ENV = DAC_CONTAINER_ID
 IMAGE_NAME := $(CONTAINER_NAME)
 
 JAVA_JARS_LOCATION := /jars
@@ -33,7 +33,7 @@ help:
 	@echo	"  generate-puml    generate DaC image using PlantUML and C4"
 
 setup:
-	$(D) build -t $(CONTAINER_NAME) .
+	docker build -t $(CONTAINER_NAME) .
 
 clean: stop-container
 
@@ -43,27 +43,26 @@ create-host-outputs:
 	mkdir -p $(OUTPUT_HOST_LOCATION)/uml
 
 run-container: create-host-outputs setup
-	$(D) run -d --name $(CONTAINER_NAME) $(IMAGE_NAME)
+	docker run -d --name $(CONTAINER_NAME) $(IMAGE_NAME)
 
 stop-container:
-#	$(D) ps --no-trunc | grep $(CONTAINER_NAME) | awk '{print $1}' | xargs docker rm -f
-	$(D) rm -f $(CONTAINER_ID)
+	docker rm -f ${DAC_CONTAINER_ID}
 
 generate-py:
 	@printf "$(OK_COLOR)==> Running DaC Python $(NO_COLOR)\n"
-	$(D) exec -t $(CONTAINER_NAME) sh -c "cd $(PY_DAC_CONTAINER_LOCATION); python3 $(filename).$(inputext); ls -lah"
+	docker exec -t $(CONTAINER_NAME) sh -c "cd $(PY_DAC_CONTAINER_LOCATION); python3 $(filename).$(inputext); ls -lah"
 
 copy-file-py:
 	@printf "$(OK_COLOR)==> Copying file to Host location $(OUTPUT_HOST_LOCATION) $(NO_COLOR)\n"
-	$(D) cp $(CONTAINER_NAME):$(PY_DAC_CONTAINER_LOCATION)/$(filename).$(outputext) $(OUTPUT_HOST_LOCATION_PY)
+	docker cp $(CONTAINER_NAME):$(PY_DAC_CONTAINER_LOCATION)/$(filename).$(outputext) $(OUTPUT_HOST_LOCATION_PY)
 
 generate-uml:
 	@printf "$(OK_COLOR)==> Running DaC UML $(NO_COLOR)\n"
-	$(D) exec -t $(CONTAINER_NAME) sh -c "cd $(UML_DAC_CONTAINER_LOCATION); echo $(pwd); java -jar $(JAVA_JARS_LOCATION)/plantuml.jar $(filename).$(inputext); ls -lah"
+	docker exec -t $(CONTAINER_NAME) sh -c "cd $(UML_DAC_CONTAINER_LOCATION); echo $(pwd); java -jar $(JAVA_JARS_LOCATION)/plantuml.jar $(filename).$(inputext); ls -lah"
 
 copy-file-uml:
 	@printf "$(OK_COLOR)==> Copying file to Host location $(OUTPUT_HOST_LOCATION) $(NO_COLOR)\n"
-	$(D) cp $(CONTAINER_NAME):$(UML_DAC_CONTAINER_LOCATION)/$(filename).$(outputext) $(OUTPUT_HOST_LOCATION_UML)
+	docker cp $(CONTAINER_NAME):$(UML_DAC_CONTAINER_LOCATION)/$(filename).$(outputext) $(OUTPUT_HOST_LOCATION_UML)
 
 diagrams-py: generate-py copy-file-py
 

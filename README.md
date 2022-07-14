@@ -27,9 +27,13 @@ The project includes ability to generate diagrams from code using:
 ## Workflow
 `make help`
 #### Run container
+`make run-container`
+
+*please note the container id which is the last line of the command output, copy or export this value*
+*it's used to stop the container*
+
 - builds the docker image and runs the container
 - creates the output folders
-`make run-container`
 
 #### Generate diagrams
 (see next section)
