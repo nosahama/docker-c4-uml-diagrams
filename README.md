@@ -1,15 +1,15 @@
 # dac - Diagrams as Code
-Combinations of Diagrams as Code tools, aiming for a minimal workflow. 
+Combinations of Diagrams as Code tools, aiming for a minimal workflow.
 
 ## Motivation
-Diagrams really aid understanding a software system or architecture and the tooling around such diagramming techniques are not quite straight forward or need installation of many dependencies. 
-We use a minimal docker image and container to run all diagram processing. 
+Diagrams really aid understanding a software system or architecture and the tooling around such diagramming techniques are not quite straight forward or need installation of many dependencies.
+We use a minimal docker image and container to run all diagram processing.
 
 ## Tools
 The project includes ability to generate diagrams from code using:
 - Python - [diagrams](https://diagrams.mingrammer.com/). Generates architecture diagrams from python code.
 - Uml - [plantuml](https://plantuml.com/). Generates any uml diagram.
-- C4 Model - [c4-plantuml](https://github.com/plantuml-stdlib/C4-PlantUML). Generates diagrams from uml code with C4 resources available. 
+- C4 Model - [c4-plantuml](https://github.com/plantuml-stdlib/C4-PlantUML). Generates diagrams from uml code with C4 resources available.
 - Docker - To run and containerize the tools.
 
 ## Example Outputs (`png`)
@@ -22,3 +22,27 @@ The project includes ability to generate diagrams from code using:
 
 ### Python
 ![consumer](https://user-images.githubusercontent.com/16656207/179086957-85fffea6-bd55-4d88-9598-a69f5a4d0302.png)
+
+
+## Workflow
+`make help`
+#### Run container
+- builds the docker image and runs the container
+- creates the output folders
+`make run-container`
+
+#### Generate diagrams
+(see next section)
+
+#### Stop container
+`CONTAINER_ID=<last line of make run-container is container id> make stop-container`
+
+## Generate Diagrams
+#### C4 Model
+`filename=test-c4 inputext=puml outputext=png make diagrams-uml`
+
+#### Uml
+`filename=test inputext=uml outputext=png make diagrams-uml`
+
+#### Python
+`filename=consumer inputext=py outputext=png make diagrams-py`
