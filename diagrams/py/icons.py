@@ -1,8 +1,6 @@
 from urllib.request import urlretrieve
 
 RMQ_ICON = "icon_images/rabbitmq.png"
-SALESFORCE_ICON = "icon_images/salesforce.png"
-
 RMQ_ICON_URL = "https://jpadilla.github.io/rabbitmqapp/assets/img/icon.png"
 
 
