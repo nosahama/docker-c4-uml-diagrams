@@ -1,5 +1,8 @@
 from urllib.request import urlretrieve
 
+# Use icons with the python tool
+# https://diagrams.mingrammer.com/docs/getting-started/examples#rabbitmq-consumers-with-custom-nodes
+
 RMQ_ICON = "icon_images/rabbitmq.png"
 RMQ_ICON_URL = "https://jpadilla.github.io/rabbitmqapp/assets/img/icon.png"
 

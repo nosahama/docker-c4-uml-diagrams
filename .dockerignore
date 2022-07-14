@@ -9,4 +9,4 @@ Makefile
 *.pyc
 .tox
 */__pycache__
-output
+output/
