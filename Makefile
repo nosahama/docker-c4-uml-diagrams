@@ -50,20 +50,12 @@ stop-container:
 
 generate-py:
 	@printf "$(OK_COLOR)==> Running DaC Python $(NO_COLOR)\n"
-	docker exec -t $(CONTAINER_NAME) sh -c "cd $(PY_DAC_CONTAINER_LOCATION); python3 $(filename).$(inputext); ls -lah"
-
-copy-file-py:
-	@printf "$(OK_COLOR)==> Copying file to Host location $(OUTPUT_HOST_LOCATION) $(NO_COLOR)\n"
-	docker cp $(CONTAINER_NAME):$(PY_DAC_CONTAINER_LOCATION)/$(filename).$(outputext) $(OUTPUT_HOST_LOCATION_PY)
+	docker exec -t $(CONTAINER_NAME) sh -c "cd $(PY_DAC_CONTAINER_LOCATION); python3 $(filename).$(inputext)"
 
 generate-uml:
 	@printf "$(OK_COLOR)==> Running DaC UML $(NO_COLOR)\n"
-	docker exec -t $(CONTAINER_NAME) sh -c "cd $(UML_DAC_CONTAINER_LOCATION); echo $(pwd); java -jar $(JAVA_JARS_LOCATION)/plantuml.jar $(filename).$(inputext); ls -lah"
+	docker exec -t $(CONTAINER_NAME) sh -c "cd $(UML_DAC_CONTAINER_LOCATION); java -jar $(JAVA_JARS_LOCATION)/plantuml.jar $(filename).$(inputext)"
 
-copy-file-uml:
-	@printf "$(OK_COLOR)==> Copying file to Host location $(OUTPUT_HOST_LOCATION) $(NO_COLOR)\n"
-	docker cp $(CONTAINER_NAME):$(UML_DAC_CONTAINER_LOCATION)/$(filename).$(outputext) $(OUTPUT_HOST_LOCATION_UML)
+diagrams-py: generate-py
 
-diagrams-py: generate-py copy-file-py
-
-diagrams-uml: generate-uml copy-file-uml
+diagrams-uml: generate-uml

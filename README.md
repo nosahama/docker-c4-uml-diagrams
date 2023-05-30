@@ -33,26 +33,21 @@ The project includes ability to generate diagrams from code using:
 `make run-container`
 
 - builds the docker image and runs the container
-- creates the output folders
 
-#### Generate diagrams
+#### Generate Diagrams
 
-(see next section)
+##### C4 Model
+
+`filename=test_c4 inputext=puml outputext=png make diagrams-uml`
+
+##### UML
+
+`filename=test inputext=uml outputext=png make diagrams-uml`
+
+##### Python
+
+`filename=consumer inputext=py outputext=png make diagrams-py`
 
 #### Stop container
 
 `make stop-container`
-
-## Generate Diagrams
-
-#### C4 Model
-
-`filename=test-c4 inputext=puml outputext=png make diagrams-uml`
-
-#### UML
-
-`filename=test inputext=uml outputext=png make diagrams-uml`
-
-#### Python
-
-`filename=consumer inputext=py outputext=png make diagrams-py`
