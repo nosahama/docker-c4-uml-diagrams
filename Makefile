@@ -11,10 +11,6 @@ JAVA_JARS_LOCATION := /jars
 PY_DAC_CONTAINER_LOCATION := /diagrams/py
 UML_DAC_CONTAINER_LOCATION := /diagrams/uml
 
-OUTPUT_HOST_LOCATION := ${PWD}/output
-OUTPUT_HOST_LOCATION_PY := ${OUTPUT_HOST_LOCATION}/py
-OUTPUT_HOST_LOCATION_UML := ${OUTPUT_HOST_LOCATION}/uml
-
 # Other config
 OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
@@ -37,12 +33,7 @@ setup:
 
 clean: stop-container
 
-create-host-outputs:
-	mkdir -p $(OUTPUT_HOST_LOCATION)
-	mkdir -p $(OUTPUT_HOST_LOCATION)/py
-	mkdir -p $(OUTPUT_HOST_LOCATION)/uml
-
-run-container: create-host-outputs setup
+run-container: setup
 	docker run -d -v ${PWD}/diagrams:/diagrams --name $(CONTAINER_NAME) $(IMAGE_NAME)
 
 stop-container:
