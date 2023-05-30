@@ -43,7 +43,7 @@ create-host-outputs:
 	mkdir -p $(OUTPUT_HOST_LOCATION)/uml
 
 run-container: create-host-outputs setup
-	docker run -d --name $(CONTAINER_NAME) $(IMAGE_NAME)
+	docker run -d -v ${PWD}/diagrams:/diagrams --name $(CONTAINER_NAME) $(IMAGE_NAME)
 
 stop-container:
 	docker rm -f ${DAC_CONTAINER_ID}
