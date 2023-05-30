@@ -46,7 +46,7 @@ run-container: create-host-outputs setup
 	docker run -d -v ${PWD}/diagrams:/diagrams --name $(CONTAINER_NAME) $(IMAGE_NAME)
 
 stop-container:
-	docker rm -f ${DAC_CONTAINER_ID}
+	docker rm -f $(CONTAINER_NAME)
 
 generate-py:
 	@printf "$(OK_COLOR)==> Running DaC Python $(NO_COLOR)\n"

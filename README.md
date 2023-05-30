@@ -21,32 +21,38 @@ The project includes ability to generate diagrams from code using:
 ![test](https://user-images.githubusercontent.com/16656207/179087059-f841f2fb-699a-4466-821e-ef8bd519477d.png)
 
 ### Python
+
 ![consumer](https://user-images.githubusercontent.com/16656207/179086957-85fffea6-bd55-4d88-9598-a69f5a4d0302.png)
 
-
 ## Workflow
-`make help`
-#### Run container
-`make run-container`
 
-*please note the container id which is the last line of the command output, copy or export this value*
-*it's used to stop the container*
+`make help`
+
+#### Run container
+
+`make run-container`
 
 - builds the docker image and runs the container
 - creates the output folders
 
 #### Generate diagrams
+
 (see next section)
 
 #### Stop container
-`CONTAINER_ID=<last line of make run-container is container id> make stop-container`
+
+`make stop-container`
 
 ## Generate Diagrams
+
 #### C4 Model
+
 `filename=test-c4 inputext=puml outputext=png make diagrams-uml`
 
-#### Uml
+#### UML
+
 `filename=test inputext=uml outputext=png make diagrams-uml`
 
 #### Python
+
 `filename=consumer inputext=py outputext=png make diagrams-py`
